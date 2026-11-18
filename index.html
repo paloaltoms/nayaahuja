@@ -1,0 +1,842 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nostalgic Waitlist</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: one soft card on a pastel ground; brand word on top, sign-up form in the middle, owner-only list below. Single light look by choice. */
+:root {
+  --blue: #bfe0f7;
+  --blue-deep: #3a7fb8;
+  --yellow: #fff2b8;
+  --pink: #fbd3e0;
+  --pink-deep: #d9587f;
+  --white: #ffffff;
+  --ink: #2c3550;
+  --ink-soft: #5d6680;
+  --line: #d9e4f0;
+  --font-display: "Fredoka", "Nunito", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html {
+  height: 100%;
+  overflow: hidden;
+  background: var(--blue);
+}
+body {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  background: var(--blue);
+  background-image:
+    radial-gradient(circle at 12% 18%, var(--yellow) 0 90px, transparent 91px),
+    radial-gradient(circle at 88% 12%, var(--pink) 0 70px, transparent 71px),
+    radial-gradient(circle at 92% 85%, var(--yellow) 0 110px, transparent 111px),
+    radial-gradient(circle at 6% 92%, var(--pink) 0 80px, transparent 81px);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  padding-block: 32px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 20px;
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 11vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 3px 3px 0 var(--pink-deep);
+  margin: 0;
+}
+.tag {
+  text-align: center;
+  margin: -8px 0 0;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+}
+.card {
+  background: var(--white);
+  border-radius: 28px;
+  padding: 28px 22px;
+  box-shadow: 0 6px 0 var(--pink), 0 14px 30px rgba(58, 127, 184, 0.18);
+  display: grid;
+  gap: 18px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 6.5vw, 2rem);
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+.lead { margin: 0; color: var(--ink-soft); }
+.perk {
+  background: var(--yellow);
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-weight: 700;
+  margin: 0;
+}
+form { display: grid; gap: 14px; }
+label { font-weight: 800; font-size: 0.92rem; display: block; margin-bottom: 6px; }
+input[type="text"], input[type="email"] {
+  width: 100%;
+  font: inherit;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  color: var(--ink);
+}
+input:focus-visible { outline: none; border-color: var(--blue-deep); box-shadow: 0 0 0 3px var(--blue); }
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { font-weight: 800; font-size: 0.92rem; margin-bottom: 8px; padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; inset: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.chip span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  background: var(--white);
+}
+.chip input:checked + span { background: var(--pink); border-color: var(--pink-deep); color: var(--ink); }
+.chip input:focus-visible + span { box-shadow: 0 0 0 3px var(--blue); }
+.btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pink-deep);
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 4px 0 #a83a5d;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #a83a5d; }
+.btn:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 3px; }
+.btn[disabled] { opacity: 0.6; cursor: default; transform: none; }
+.msg { margin: 0; font-weight: 700; min-height: 1.5em; }
+.msg.err { color: var(--pink-deep); }
+.done { text-align: center; display: grid; gap: 8px; }
+.done .big { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; margin: 0; }
+.fine { font-size: 0.8rem; color: var(--ink-soft); margin: 0; text-align: center; }
+.owner h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; margin: 0; }
+.meter { height: 14px; background: var(--blue); border-radius: 999px; overflow: hidden; }
+.meter > i { display: block; height: 100%; background: var(--pink-deep); width: 0; border-radius: 999px; transition: width 0.4s ease; }
+.count { font-weight: 800; font-variant-numeric: tabular-nums; margin: 0; }
+.list { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+th { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.empty { color: var(--ink-soft); margin: 0; }
+.hint { margin: -2px 0 8px; font-size: 0.85rem; color: var(--ink-soft); }
+.upload {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 18px 14px;
+  border: 2px dashed var(--blue-deep);
+  border-radius: 16px;
+  background: var(--blue);
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--ink);
+}
+.upload small { font-weight: 600; color: var(--ink-soft); }
+.upload:focus-within { box-shadow: 0 0 0 3px var(--pink); }
+.file-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.thumbs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.thumb { position: relative; width: 84px; height: 84px; border-radius: 14px; overflow: hidden; background: var(--yellow); border: 2px solid var(--pink); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb button {
+  position: absolute; top: 4px; right: 4px;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 0; background: var(--white); color: var(--pink-deep);
+  font-weight: 800; font-size: 0.95rem; line-height: 1; cursor: pointer;
+}
+.thumb button:focus-visible { outline: 2px solid var(--blue-deep); }
+.wall h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 6.5vw, 2rem); line-height: 1.15; margin: 0; }
+.wall-count { margin: 0; font-weight: 800; color: var(--blue-deep); font-variant-numeric: tabular-nums; }
+.people { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.person { display: grid; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--yellow); }
+.person:nth-child(3n+2) { background: var(--pink); }
+.person:nth-child(3n+3) { background: var(--blue); }
+.person-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.person-name { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; overflow-wrap: anywhere; min-width: 0; }
+.person-want { background: var(--white); border-radius: 999px; padding: 3px 12px; font-weight: 800; font-size: 0.85rem; }
+textarea {
+  width: 100%;
+  font: inherit;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  color: var(--ink);
+  resize: vertical;
+  min-height: 90px;
+}
+textarea:focus-visible { outline: none; border-color: var(--blue-deep); box-shadow: 0 0 0 3px var(--blue); }
+.req-form { display: grid; gap: 14px; }
+.req-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.req { padding: 12px 14px; border-radius: 16px; background: var(--blue); display: grid; gap: 4px; }
+.req:nth-child(3n+2) { background: var(--yellow); }
+.req:nth-child(3n+3) { background: var(--pink); }
+.req-text { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.req-by { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+.inv-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.small-btn {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 2px solid var(--pink-deep);
+  background: var(--white);
+  color: var(--pink-deep);
+  cursor: pointer;
+}
+.small-btn:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 2px; }
+.small-btn.on { background: var(--pink-deep); color: var(--white); }
+.req.done-row .req-text { text-decoration: line-through; opacity: 0.6; }
+.inv-note { margin: 0; font-size: 0.85rem; font-weight: 700; min-height: 1.3em; color: var(--blue-deep); }
+.mini { display: flex; gap: 4px; flex-wrap: wrap; }
+.mini img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; background: var(--yellow); }
+.share h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 6.5vw, 2rem);
+  line-height: 1.15;
+  margin: 0;
+}
+.share-box { display: grid; gap: 14px; }
+.share-link {
+  width: 100%;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--yellow);
+  color: var(--ink);
+}
+.share-link:focus-visible { outline: none; border-color: var(--blue-deep); box-shadow: 0 0 0 3px var(--blue); }
+.copied { margin: 0; font-weight: 700; min-height: 1.5em; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .btn, .meter > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <p class="brand">nostalgic</p>
+  <p class="tag">Coming soon</p>
+
+  <section class="card" id="joinCard">
+    <h1>Comfy, cute clothes that actually fit.</h1>
+    <p class="lead">Pajamas, jeans and tops you'll never want to take off. Join the list and help pick what we make first.</p>
+    <p class="perk">The first 30 people get first pick of our designs.</p>
+
+    <form id="joinForm" novalidate>
+      <div>
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" autocomplete="given-name" maxlength="40" placeholder="Maya">
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="email" maxlength="120" placeholder="you@example.com">
+      </div>
+      <fieldset>
+        <legend>What do you want most?</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="wants" id="wantPajamas" value="Pajamas"><span>Pajamas</span></label>
+          <label class="chip"><input type="radio" name="wants" id="wantJeans" value="Jeans"><span>Jeans</span></label>
+          <label class="chip"><input type="radio" name="wants" id="wantTops" value="Comfy tops"><span>Comfy tops</span></label>
+          <label class="chip"><input type="radio" name="wants" id="wantSkirts" value="Skirts"><span>Skirts</span></label>
+        </div>
+      </fieldset>
+      <div id="photoField" hidden>
+        <label for="photoInput">Show us what you want (optional)</label>
+        <p class="hint">Add up to 3 photos of clothes you love. Clothes only, please, no pictures of people.</p>
+        <label class="upload" for="photoInput">
+          <span>Tap to add photos</span>
+          <small id="photoCount">0 of 3 added</small>
+        </label>
+        <input class="file-input" type="file" id="photoInput" accept="image/png,image/jpeg,image/gif,image/webp" multiple>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <button class="btn" type="submit" id="joinBtn">Add me to the waitlist</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+
+    <div class="done" id="doneBox" hidden>
+      <p class="big">You're on the list!</p>
+      <p class="lead" id="doneText">We'll let you know when the first drop is ready.</p>
+    </div>
+  </section>
+
+  <section class="card owner" id="ownerCard" hidden>
+    <h2>Your waitlist</h2>
+    <p class="count" id="ownerCount">0 of 30 sign-ups</p>
+    <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+    <p class="empty" id="ownerEmpty">No sign-ups yet. Share this page's link to get your first one.</p>
+    <div class="list" id="ownerList" hidden>
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Wants</th><th>Photos</th></tr></thead>
+        <tbody id="ownerRows"></tbody>
+      </table>
+    </div>
+    <h2>Friends to invite</h2>
+    <p class="hint">Tap Email invite to send a friend an invite from your Gmail. You'll be asked to confirm before it sends.</p>
+    <p class="inv-note" id="invNote" role="status"></p>
+    <ul class="req-list" id="inviteList"></ul>
+    <p class="empty" id="inviteEmpty">No friend emails yet.</p>
+  </section>
+
+  <section class="card wall" id="wallCard">
+    <h2>Who's on the list</h2>
+    <p class="wall-count" id="wallCount">Loading the list...</p>
+    <ul class="people" id="people"></ul>
+    <p class="empty" id="wallEmpty" hidden>Nobody yet. Be the first to join!</p>
+  </section>
+
+  <section class="card wall" id="reqCard">
+    <h2>Request a design</h2>
+    <p class="lead">What should Nostalgic make next? Tell us your dream piece.</p>
+    <form class="req-form" id="reqForm" novalidate>
+      <div>
+        <label for="reqName">Your first name</label>
+        <input type="text" id="reqName" maxlength="40" placeholder="Maya">
+      </div>
+      <div>
+        <label for="reqText">Your idea</label>
+        <textarea id="reqText" maxlength="200" placeholder="Baby blue pajama pants with little clouds"></textarea>
+      </div>
+      <button class="btn" type="submit" id="reqBtn">Send my request</button>
+      <p class="msg" id="reqMsg" role="status"></p>
+    </form>
+    <ul class="req-list" id="reqList"></ul>
+    <p class="empty" id="reqEmpty">No requests yet. Send the first idea!</p>
+  </section>
+
+  <section class="card share" id="shareCard">
+    <h2>Tell a friend!</h2>
+    <p class="lead">Copy the link, then paste it in a text to a friend.</p>
+    <div class="share-box">
+      <label for="shareLink" class="sr-hide" hidden>Waitlist link</label>
+      <input class="share-link" type="text" id="shareLink" readonly value="https://claude.ai/artifact/7HgeRmwKdFoyfwNUWF7LMY">
+      <button class="btn" type="button" id="copyLinkBtn">Copy link</button>
+      <p class="copied" id="copied" role="status"></p>
+    </div>
+    <form class="req-form" id="inviteForm" novalidate>
+      <div>
+        <label for="friendEmail">Or type your friend's email</label>
+        <input type="email" id="friendEmail" maxlength="120" placeholder="friend@example.com">
+      </div>
+      <button class="btn" type="submit" id="inviteBtn">Submit</button>
+      <p class="msg" id="inviteMsg" role="status"></p>
+    </form>
+  </section>
+
+  <p class="fine">Only you and Nostalgic see your info. We'll only email you about the launch.</p>
+</div>
+
+<script>
+(function () {
+  var GOAL = 30;
+  var form = document.getElementById("joinForm");
+  var btn = document.getElementById("joinBtn");
+  var msg = document.getElementById("msg");
+  var doneBox = document.getElementById("doneBox");
+  var doneText = document.getElementById("doneText");
+  var db = null, myId = null, ready = false, assets = null;
+  var MAX_PHOTOS = 3;
+  var photos = [];
+  var photoInput = document.getElementById("photoInput");
+  var thumbs = document.getElementById("thumbs");
+
+  function drawThumbs() {
+    thumbs.textContent = "";
+    photos.forEach(function (p, i) {
+      var box = document.createElement("div");
+      box.className = "thumb";
+      var img = document.createElement("img");
+      img.src = p.preview;
+      img.alt = "Photo " + (i + 1);
+      var rm = document.createElement("button");
+      rm.type = "button";
+      rm.textContent = "x";
+      rm.setAttribute("aria-label", "Remove photo " + (i + 1));
+      rm.addEventListener("click", function () {
+        try { URL.revokeObjectURL(p.preview); } catch (e) {}
+        photos.splice(i, 1);
+        drawThumbs();
+      });
+      box.appendChild(img);
+      box.appendChild(rm);
+      thumbs.appendChild(box);
+    });
+    document.getElementById("photoCount").textContent = photos.length + " of " + MAX_PHOTOS + " added";
+  }
+
+  photoInput.addEventListener("change", function () {
+    var files = Array.prototype.slice.call(photoInput.files || []);
+    var tooBig = false;
+    files.forEach(function (f) {
+      if (photos.length >= MAX_PHOTOS) return;
+      if (!/^image\/(png|jpeg|gif|webp)$/.test(f.type)) return;
+      if (f.size > 20 * 1024 * 1024) { tooBig = true; return; }
+      photos.push({ file: f, preview: URL.createObjectURL(f) });
+    });
+    photoInput.value = "";
+    drawThumbs();
+    if (tooBig) setMsg("One photo was too big. Try a smaller one.", true);
+    else if (files.length && photos.length >= MAX_PHOTOS) setMsg("That's the max of 3 photos.", false);
+    else setMsg("", false);
+  });
+
+  function setMsg(text, isErr) {
+    msg.textContent = text;
+    msg.className = "msg" + (isErr ? " err" : "");
+  }
+
+  function showDone(name) {
+    form.hidden = true;
+    doneBox.hidden = false;
+    if (name) doneText.textContent = "Thanks, " + name + "! We'll let you know when the first drop is ready.";
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var name = document.getElementById("firstName").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var picked = form.querySelector('input[name="wants"]:checked');
+    if (!name) { setMsg("Add your first name so we know who you are.", true); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setMsg("That email doesn't look right. Check it and try again.", true); return; }
+    if (!picked) { setMsg("Pick what you want most.", true); return; }
+    if (!ready || !db || !myId) {
+      setMsg("Oops! This page can't save your spot yet. Sign in to Claude and try again.", true);
+      return;
+    }
+    btn.disabled = true;
+    setMsg(photos.length ? "Uploading your photos..." : "Adding you...", false);
+    var photoIds = [];
+    if (assets && photos.length) {
+      for (var i = 0; i < photos.length; i++) {
+        try {
+          var up = await assets.upload(photos[i].file);
+          photoIds.push(up.id);
+        } catch (err) {
+          btn.disabled = false;
+          var code = err && err.code;
+          setMsg(code === "too_large" ? "One photo was too big. Remove it and try again."
+            : code === "unsupported_type" ? "One photo is a type we can't use. Try a JPG or PNG."
+            : "Oops! A photo didn't upload. Wait a minute and try again.", true);
+          return;
+        }
+      }
+      setMsg("Adding you...", false);
+    }
+    try {
+      var when = new Date().toISOString();
+      await db.doc("waitlist/" + myId).set({
+        firstName: name.slice(0, 40),
+        email: email.slice(0, 120),
+        wants: picked.value,
+        photos: photoIds,
+        joinedAt: when
+      });
+      try {
+        await db.doc("wall/" + myId).set({
+          firstName: name.slice(0, 40),
+          wants: picked.value,
+          photos: photoIds,
+          joinedAt: when
+        });
+      } catch (e) {}
+      setMsg("", false);
+      showDone(name);
+    } catch (err) {
+      btn.disabled = false;
+      setMsg("Oops! That didn't work. Wait a minute and tap the button again.", true);
+    }
+  });
+
+  function renderOwner(snap) {
+    var rows = document.getElementById("ownerRows");
+    var n = snap.size;
+    document.getElementById("ownerCount").textContent = n + " of " + GOAL + " sign-ups";
+    document.getElementById("meterFill").style.width = Math.min(100, (n / GOAL) * 100) + "%";
+    document.getElementById("ownerEmpty").hidden = n > 0;
+    document.getElementById("ownerList").hidden = n === 0;
+    rows.textContent = "";
+    snap.docs.forEach(function (d) {
+      var v = d.data() || {};
+      var tr = document.createElement("tr");
+      [v.firstName, v.email, v.wants].forEach(function (val) {
+        var td = document.createElement("td");
+        td.textContent = val || "";
+        tr.appendChild(td);
+      });
+      var ptd = document.createElement("td");
+      var mini = document.createElement("div");
+      mini.className = "mini";
+      (Array.isArray(v.photos) ? v.photos : []).forEach(function (id) {
+        if (typeof id !== "string" || !/^[A-Za-z0-9]{8,64}$/.test(id)) return;
+        var a = document.createElement("a");
+        a.href = "/_blob/" + id;
+        a.target = "_blank";
+        a.rel = "noopener";
+        var img = document.createElement("img");
+        img.src = "/_blob/" + id;
+        img.alt = "Photo from " + (v.firstName || "a fan");
+        img.onerror = function () { img.style.visibility = "hidden"; };
+        a.appendChild(img);
+        mini.appendChild(a);
+      });
+      if (!mini.childNodes.length) ptd.textContent = "-"; else ptd.appendChild(mini);
+      tr.appendChild(ptd);
+      rows.appendChild(tr);
+    });
+  }
+
+  function photoStrip(list, who) {
+    var mini = document.createElement("div");
+    mini.className = "mini";
+    (Array.isArray(list) ? list : []).forEach(function (id) {
+      if (typeof id !== "string" || !/^[A-Za-z0-9]{8,64}$/.test(id)) return;
+      var img = document.createElement("img");
+      img.src = "/_blob/" + id;
+      img.alt = "Photo from " + who;
+      img.onerror = function () { img.hidden = true; };
+      mini.appendChild(img);
+    });
+    return mini;
+  }
+
+  function renderWall(snap) {
+    var ul = document.getElementById("people");
+    var n = snap.size;
+    document.getElementById("wallCount").textContent = n === 1 ? "1 person has joined" : n + " people have joined";
+    document.getElementById("wallEmpty").hidden = n > 0;
+    ul.textContent = "";
+    snap.docs.forEach(function (d) {
+      var v = d.data() || {};
+      var who = v.firstName || "A fan";
+      var li = document.createElement("li");
+      li.className = "person";
+      var top = document.createElement("div");
+      top.className = "person-top";
+      var nm = document.createElement("span");
+      nm.className = "person-name";
+      nm.textContent = who;
+      top.appendChild(nm);
+      if (v.wants) {
+        var w = document.createElement("span");
+        w.className = "person-want";
+        w.textContent = "Wants " + v.wants;
+        top.appendChild(w);
+      }
+      li.appendChild(top);
+      var strip = photoStrip(v.photos, who);
+      if (strip.childNodes.length) li.appendChild(strip);
+      ul.appendChild(li);
+    });
+  }
+
+  var myRequests = [];
+  var reqMsg = document.getElementById("reqMsg");
+  function setReqMsg(t, err) { reqMsg.textContent = t; reqMsg.className = "msg" + (err ? " err" : ""); }
+
+  function renderRequests(snap) {
+    var all = [];
+    snap.docs.forEach(function (d) {
+      var v = d.data() || {};
+      if (d.id === myId) myRequests = Array.isArray(v.items) ? v.items.slice() : [];
+      (Array.isArray(v.items) ? v.items : []).forEach(function (it) {
+        if (it && typeof it.text === "string") all.push({ text: it.text, at: it.at || "", who: v.firstName || "A fan" });
+      });
+    });
+    all.sort(function (a, b) { return a.at < b.at ? 1 : -1; });
+    var ul = document.getElementById("reqList");
+    ul.textContent = "";
+    all.forEach(function (r) {
+      var li = document.createElement("li");
+      li.className = "req";
+      var p = document.createElement("p");
+      p.className = "req-text";
+      p.textContent = r.text;
+      var by = document.createElement("p");
+      by.className = "req-by";
+      by.textContent = "From " + r.who;
+      li.appendChild(p);
+      li.appendChild(by);
+      ul.appendChild(li);
+    });
+    document.getElementById("reqEmpty").hidden = all.length > 0;
+  }
+
+  document.getElementById("reqForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var nm = document.getElementById("reqName").value.trim();
+    var txt = document.getElementById("reqText").value.trim();
+    if (!nm) { setReqMsg("Add your first name.", true); return; }
+    if (!txt) { setReqMsg("Type your idea first.", true); return; }
+    if (!ready || !db || !myId) { setReqMsg("Oops! Sign in to Claude to send a request.", true); return; }
+    if (myRequests.length >= 5) { setReqMsg("You've sent 5 ideas already. Thanks for all of them!", true); return; }
+    var b = document.getElementById("reqBtn");
+    b.disabled = true;
+    setReqMsg("Sending...", false);
+    var items = myRequests.concat([{ text: txt.slice(0, 200), at: new Date().toISOString() }]);
+    try {
+      await db.doc("requests/" + myId).set({ firstName: nm.slice(0, 40), items: items });
+      myRequests = items;
+      document.getElementById("reqText").value = "";
+      setReqMsg("Sent! Thanks for the idea.", false);
+    } catch (err) {
+      setReqMsg("Oops! That didn't send. Wait a minute and try again.", true);
+    }
+    b.disabled = false;
+  });
+
+  var myInvites = [];
+  var inviteMsg = document.getElementById("inviteMsg");
+  function setInviteMsg(t, err) { inviteMsg.textContent = t; inviteMsg.className = "msg" + (err ? " err" : ""); }
+  document.getElementById("inviteForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var em = document.getElementById("friendEmail").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setInviteMsg("That email doesn't look right. Check it and try again.", true); return; }
+    if (!ready || !db || !myId) { setInviteMsg("Oops! Sign in to Claude to submit.", true); return; }
+    if (myInvites.indexOf(em.toLowerCase()) !== -1) { setInviteMsg("You already sent that one!", false); return; }
+    if (myInvites.length >= 10) { setInviteMsg("You've sent 10 friends already. Thank you!", true); return; }
+    var b = document.getElementById("inviteBtn");
+    b.disabled = true;
+    setInviteMsg("Sending...", false);
+    var list = myInvites.concat([em.toLowerCase().slice(0, 120)]);
+    var from = document.getElementById("firstName").value.trim() || document.getElementById("reqName").value.trim();
+    try {
+      await db.doc("invites/" + myId).set({ from: from.slice(0, 40), emails: list });
+      myInvites = list;
+      document.getElementById("friendEmail").value = "";
+      setInviteMsg("Submitted! Nostalgic will send them an invite.", false);
+    } catch (err) {
+      setInviteMsg("Oops! That didn't work. Wait a minute and try again.", true);
+    }
+    b.disabled = false;
+  });
+
+  var INVITE_MSG = "Hi! I'm starting a clothing brand called Nostalgic: comfy, cute clothes that actually fit, like pajamas, jeans and comfy tops. Join the waitlist to get first pick of the designs and send your own ideas! https://claude.ai/artifact/7HgeRmwKdFoyfwNUWF7LMY";
+  var invitedDone = [];
+  var lastInviteSnap = null;
+  var invNote = document.getElementById("invNote");
+
+  function copyText(text, okMsg) {
+    function fail() { invNote.textContent = "Copying is blocked here. Press and hold the text to copy it."; }
+    try {
+      navigator.clipboard.writeText(text).then(function () { invNote.textContent = okMsg; }, fail);
+    } catch (e) { fail(); }
+  }
+
+  var pendingConfirm = null, sending = null, confirmTimer = null;
+  function rerenderInvites() { if (lastInviteSnap) renderInvites(lastInviteSnap); }
+
+  async function emailInvite(em) {
+    if (sending) return;
+    if (pendingConfirm !== em) {
+      pendingConfirm = em;
+      invNote.textContent = "Send an invite email to " + em + "? Tap the button again to send.";
+      clearTimeout(confirmTimer);
+      confirmTimer = setTimeout(function () { pendingConfirm = null; rerenderInvites(); }, 8000);
+      rerenderInvites();
+      return;
+    }
+    clearTimeout(confirmTimer);
+    pendingConfirm = null;
+    var mcp = null;
+    try { mcp = await window.claude.use("mcp"); } catch (e) {}
+    if (!mcp) { invNote.textContent = "Emailing doesn't work in this view. Open the page in the Claude app or claude.ai."; rerenderInvites(); return; }
+    sending = em;
+    rerenderInvites();
+    invNote.textContent = "Sending to " + em + "...";
+    try {
+      await mcp.callTool("Gmail", "send_message", {
+        to: [em],
+        subject: "You're invited to the Nostalgic waitlist!",
+        body: INVITE_MSG
+      }, { cache: false });
+      sending = null;
+      invNote.textContent = "Sent! " + em + " got your invite.";
+      if (invitedDone.indexOf(em) === -1) await toggleInvited(em); else rerenderInvites();
+    } catch (err) {
+      sending = null;
+      var c = err && err.code;
+      if (c === "needs_reauth") invNote.textContent = "Gmail needs to be reconnected. Go to claude.ai Settings, then Connectors, and reconnect Gmail.";
+      else if (c === "server_not_connected" || c === "selection_required") invNote.textContent = "Gmail isn't connected. Add Gmail in claude.ai Settings, then Connectors.";
+      else if (c === "not_in_manifest" || c === "approval_required" || c === "consent_required") invNote.textContent = "This page needs your OK to use Gmail. Tap Email invite again and choose Allow.";
+      else if (c === "blocked_by_policy") invNote.textContent = "Your school blocks sending email from here. Send the invite from Gmail yourself.";
+      else if (c === "tool_error") invNote.textContent = "Gmail couldn't send it. Check the email address and try again.";
+      else invNote.textContent = "Not sure if it sent. Check your Gmail Sent folder before trying again.";
+      rerenderInvites();
+    }
+  }
+
+  async function toggleInvited(em) {
+    var next = invitedDone.indexOf(em) === -1 ? invitedDone.concat([em]) : invitedDone.filter(function (x) { return x !== em; });
+    var prev = invitedDone;
+    invitedDone = next;
+    if (lastInviteSnap) renderInvites(lastInviteSnap);
+    try {
+      await db.doc("ownerdata/invited").set({ emails: next });
+    } catch (e) {
+      invitedDone = prev;
+      if (lastInviteSnap) renderInvites(lastInviteSnap);
+      invNote.textContent = "Couldn't save that. Try again in a minute.";
+    }
+  }
+
+  function renderInvites(snap) {
+    lastInviteSnap = snap;
+    var ul = document.getElementById("inviteList");
+    ul.textContent = "";
+    var count = 0;
+    snap.docs.forEach(function (d) {
+      var v = d.data() || {};
+      (Array.isArray(v.emails) ? v.emails : []).forEach(function (em) {
+        if (typeof em !== "string") return;
+        count++;
+        var isDone = invitedDone.indexOf(em) !== -1;
+        var li = document.createElement("li");
+        li.className = "req" + (isDone ? " done-row" : "");
+        var p = document.createElement("p");
+        p.className = "req-text";
+        p.textContent = em;
+        var by = document.createElement("p");
+        by.className = "req-by";
+        by.textContent = "From " + (v.from || "a fan");
+        var actions = document.createElement("div");
+        actions.className = "inv-actions";
+        var b1 = document.createElement("button");
+        b1.type = "button"; b1.className = "small-btn";
+        var armed = pendingConfirm === em;
+        b1.textContent = sending === em ? "Sending..." : armed ? "Tap again to send" : (isDone ? "Email again" : "Email invite");
+        if (armed) b1.className += " on";
+        b1.disabled = sending === em;
+        b1.addEventListener("click", function () { emailInvite(em); });
+        var b2 = null;
+        var b3 = document.createElement("button");
+        b3.type = "button"; b3.className = "small-btn" + (isDone ? " on" : "");
+        b3.textContent = isDone ? "Invited!" : "Mark invited";
+        b3.setAttribute("aria-pressed", isDone ? "true" : "false");
+        b3.addEventListener("click", function () { toggleInvited(em); });
+        actions.appendChild(b1); actions.appendChild(b3);
+        li.appendChild(p);
+        li.appendChild(by);
+        li.appendChild(actions);
+        ul.appendChild(li);
+      });
+    });
+    document.getElementById("inviteEmpty").hidden = count > 0;
+  }
+
+  async function start() {
+    var wallCount = document.getElementById("wallCount");
+    if (!window.claude || !window.claude.use) { wallCount.textContent = "Sign in to Claude to see the list."; return; }
+    var results = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    db = results[0];
+    var user = results[1];
+    if (!db) { wallCount.textContent = "Sign in to Claude to see the list."; return; }
+    var wallTimer = setTimeout(function () { wallCount.textContent = "The list is taking a while to load. Try again soon."; }, 10000);
+    db.collection("wall").orderBy("joinedAt", "asc").onSnapshot(function (snap) {
+      if (!snap.metadata.fromCache) clearTimeout(wallTimer);
+      renderWall(snap);
+    }, function () {
+      clearTimeout(wallTimer);
+      wallCount.textContent = "Couldn't load the list right now. Refresh to try again.";
+    });
+    db.collection("requests").onSnapshot(renderRequests, function () {
+      document.getElementById("reqEmpty").textContent = "Couldn't load requests right now. Refresh to try again.";
+    });
+    if (!user) return;
+    myId = await user.id();
+    if (!myId) return;
+    ready = true;
+    try { assets = await window.claude.use("assets"); } catch (e) { assets = null; }
+    if (assets) document.getElementById("photoField").hidden = false;
+
+    try {
+      var inv = await db.doc("invites/" + myId).get();
+      if (inv.exists) myInvites = ((inv.data() || {}).emails || []).slice();
+    } catch (e) {}
+
+    try {
+      var mine = await db.doc("waitlist/" + myId).get();
+      if (mine.exists) {
+        var fn = (mine.data() || {}).firstName;
+        showDone(fn);
+        var rn = document.getElementById("reqName");
+        if (fn && !rn.value) rn.value = fn;
+      }
+    } catch (e) {}
+
+    if (await user.isOwner()) {
+      document.getElementById("ownerCard").hidden = false;
+      db.collection("waitlist").orderBy("joinedAt", "asc").onSnapshot(renderOwner, function () {
+        document.getElementById("ownerEmpty").textContent = "Couldn't load the list right now. Refresh to try again.";
+      });
+      db.doc("ownerdata/invited").onSnapshot(function (s) {
+        invitedDone = s.exists && Array.isArray((s.data() || {}).emails) ? (s.data().emails).slice() : [];
+        if (lastInviteSnap) renderInvites(lastInviteSnap);
+      }, function () {});
+      db.collection("invites").onSnapshot(renderInvites, function () {
+        document.getElementById("inviteEmpty").textContent = "Couldn't load friend emails right now.";
+      });
+    }
+  }
+  start();
+
+  var LINK = "https://claude.ai/artifact/7HgeRmwKdFoyfwNUWF7LMY";
+  var copied = document.getElementById("copied");
+  var linkBox = document.getElementById("shareLink");
+  function fallback() {
+    try { linkBox.focus(); linkBox.select(); linkBox.setSelectionRange(0, LINK.length); } catch (e) {}
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    copied.textContent = ok ? "Copied! Now paste it in a text." : "The link is highlighted. Press and hold it, then tap Copy.";
+  }
+  linkBox.addEventListener("focus", function () { try { linkBox.select(); } catch (e) {} });
+  document.getElementById("copyLinkBtn").addEventListener("click", function () {
+    try {
+      navigator.clipboard.writeText(LINK).then(function () {
+        copied.textContent = "Copied! Now paste it in a text.";
+      }, fallback);
+    } catch (e) {
+      fallback();
+    }
+  });
+})();
+</script>
+
+</body></html>
